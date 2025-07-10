@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Pie, Line } from "react-chartjs-2";
 import "chart.js/auto";
+import "./App.css";
+
 
 export default function Dashboard() {
   const [entries, setEntries] = useState([]);

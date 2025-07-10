@@ -1,0 +1,95 @@
+/* Reset some default styles */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  background-color: #f7f9fc;
+  color: #333;
+}
+
+/* Container for all pages */
+div {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+h3, h4 {
+  margin-top: 30px;
+  color: #34495e;
+}
+
+/* Labels and Inputs */
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="month"],
+input[type="number"],
+select {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 12px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #3498db;
+  border: none;
+  color: #fff;
+  padding: 10px 18px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+/* Pie and Line Chart containers */
+canvas {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px;
+}
+
+/* Navbar styling if you use one */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  background-color: #3498db;
+  padding: 12px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
