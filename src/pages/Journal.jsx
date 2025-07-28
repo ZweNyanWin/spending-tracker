@@ -1,93 +1,172 @@
-import { useEffect, useState } from "react";
-import "./App.css";
+// src/pages/Journal.jsx
 
+import { useEffect, useState } from "react";
+// 1) Import the JSON so Vite bundles it into your JS
+import teacherData from "../data/spending_data.json";
+import "../App.css";
 
 export default function Journal() {
   const [categories, setCategories] = useState([]);
-  const [date, setDate] = useState("");
-  const [category, setCategory] = useState("");
-  const [amount, setAmount] = useState("");
   const [newCategory, setNewCategory] = useState("");
 
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("spendingCategories"));
-    if (stored) {
-      setCategories(stored);
-    } else {
-      fetch("/spending-category.json")
-        .then((res) => res.json())
-        .then((data) => {
-          setCategories(data);
-          localStorage.setItem("spendingCategories", JSON.stringify(data));
-        });
-    }
-  }, []);
+  const [date, setDate] = useState("");
+  const [expenseCategory, setExpenseCategory] = useState("");
+  const [amount, setAmount] = useState("");
+  const [entries, setEntries] = useState([]);
+
+useEffect(() => {
+  // 1️⃣ read whatever the user already saved (or [])
+  const savedCats =
+    JSON.parse(localStorage.getItem("spendingCategories")) || [];
+
+  // 2️⃣ grab the instructor’s categories
+  const baseCats = Array.from(
+    new Set(teacherData.map((r) => r.category))
+  );
+
+  // 3️⃣ merge them, de-duplicating
+  const merged = Array.from(new Set([...baseCats, ...savedCats]));
+
+  // 4️⃣ persist + load into state
+  localStorage.setItem(
+    "spendingCategories",
+    JSON.stringify(merged)
+  );
+  setCategories(merged);
+
+  // 5️⃣ load journal entries as before
+  const stored = JSON.parse(
+    localStorage.getItem("journalEntries")
+  ) || [];
+  setEntries(stored);
+}, []);
+
 
   const handleAddCategory = () => {
-    if (newCategory && !categories.includes(newCategory)) {
-      const updated = [...categories, newCategory];
-      setCategories(updated);
-      localStorage.setItem("spendingCategories", JSON.stringify(updated));
-      setNewCategory("");
-    }
+    const trimmed = newCategory.trim();
+    if (!trimmed) return alert("Enter a category name.");
+    if (categories.includes(trimmed))
+      return alert("That category already exists.");
+
+    const updated = [...categories, trimmed];
+    localStorage.setItem(
+      "spendingCategories",
+      JSON.stringify(updated)
+    );
+    setCategories(updated);
+    setNewCategory(""); // reset input
   };
+  
 
-  const handleSave = () => {
-    if (!date || !category || !amount) {
-      alert("Please fill all fields.");
-      return;
-    }
+  const handleSaveExpense = () => {
+    if (!date || !expenseCategory || amount === "")
+      return alert("Please fill date, category, and amount.");
 
-    const entry = { date, category, amount: Number(amount) };
-    const oldEntries = JSON.parse(localStorage.getItem("journalEntries")) || [];
-    const updatedEntries = [...oldEntries, entry];
-    localStorage.setItem("journalEntries", JSON.stringify(updatedEntries));
+    const num = Number(amount);
+    if (isNaN(num) || num < 0)
+      return alert("Enter a valid non-negative amount.");
 
-    alert("Saved!");
+    const entry = { date, category: expenseCategory, amount: num };
+    const old = JSON.parse(
+      localStorage.getItem("journalEntries")
+    ) || [];
+    const updatedEntries = [...old, entry];
+    localStorage.setItem(
+      "journalEntries",
+      JSON.stringify(updatedEntries)
+    );
+    setEntries(updatedEntries);
+
+    // reset form
     setDate("");
-    setCategory("");
+    setExpenseCategory("");
     setAmount("");
   };
 
   return (
-    <div>
-      <h2>Journal</h2>
-
-      <label>Date:</label>
-      <input
-        type="date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-      />
-
-      <label>Category:</label>
-      <select value={category} onChange={(e) => setCategory(e.target.value)}>
-        <option value="">Select category</option>
-        {categories.map((c) => (
-          <option key={c} value={c}>
-            {c}
-          </option>
-        ))}
-      </select>
-
-      <div>
-        <label>Add New Category:</label>
+    <div className="container">
+      {/* add category card */}
+      <div className="card">
+        <h3>Add New Category</h3>
         <input
           type="text"
+          placeholder="Enter category name"
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
         />
-        <button onClick={handleAddCategory}>Add</button>
+        <button onClick={handleAddCategory} style={{ marginTop: 8 }}>
+          + Add Category
+        </button>
       </div>
 
-      <label>Amount:</label>
-      <input
-        type="number"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-      />
+      {/* add expense card */}
+      <div className="card">
+        <h3>Add New Expense</h3>
 
-      <button onClick={handleSave}>Save Entry</button>
+        <label>Date</label>
+        <input
+          type="date"
+          max={new Date().toISOString().split("T")[0]}
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+
+        <label>Category</label>
+        <select
+          value={expenseCategory}
+          onChange={(e) => setExpenseCategory(e.target.value)}
+        >
+          <option value="">Select category</option>
+          {categories.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+
+        <label>Amount ($)</label>
+        <input
+          type="number"
+          min="0"
+          step="0.01"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
+
+        <button
+          onClick={handleSaveExpense}
+          style={{ marginTop: 8 }}
+        >
+          Add Expense
+        </button>
+      </div>
+
+      {/* recent entries */}
+      <div className="card">
+        <h3>Recent Expenses</h3>
+        {entries.length ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Amount ($)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {entries.map((e, i) => (
+                <tr key={i}>
+                  <td>{e.date}</td>
+                  <td>{e.category}</td>
+                  <td>{e.amount.toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No expenses yet. Add one above!</p>
+        )}
+      </div>
     </div>
   );
 }
