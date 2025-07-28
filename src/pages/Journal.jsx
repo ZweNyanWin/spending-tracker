@@ -15,26 +15,26 @@ export default function Journal() {
   const [entries, setEntries] = useState([]);
 
 useEffect(() => {
-  // 1️⃣ read whatever the user already saved (or [])
+  //read whatever the user already saved (or [])
   const savedCats =
     JSON.parse(localStorage.getItem("spendingCategories")) || [];
 
-  // 2️⃣ grab the instructor’s categories
+  // grab the instructor’s categories
   const baseCats = Array.from(
     new Set(teacherData.map((r) => r.category))
   );
 
-  // 3️⃣ merge them, de-duplicating
+  // merge them, de-duplicating
   const merged = Array.from(new Set([...baseCats, ...savedCats]));
 
-  // 4️⃣ persist + load into state
+  // persist + load into state
   localStorage.setItem(
     "spendingCategories",
     JSON.stringify(merged)
   );
   setCategories(merged);
 
-  // 5️⃣ load journal entries as before
+  //  load journal entries as before
   const stored = JSON.parse(
     localStorage.getItem("journalEntries")
   ) || [];

@@ -1,95 +1,158 @@
-/* Reset some default styles */
-body {
-  margin: 0;
-  font-family: "Segoe UI", Roboto, sans-serif;
-  background-color: #f7f9fc;
-  color: #333;
-}
-
-/* Container for all pages */
-div {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Headings */
-h2 {
-  color: #2c3e50;
-  margin-bottom: 20px;
-  font-size: 28px;
-}
-
-h3, h4 {
-  margin-top: 30px;
-  color: #34495e;
-}
-
-/* Labels and Inputs */
-label {
-  display: block;
-  margin-top: 15px;
-  font-weight: 500;
-}
-
-input[type="text"],
-input[type="date"],
-input[type="month"],
-input[type="number"],
-select {
-  display: block;
-  width: 100%;
-  max-width: 300px;
-  padding: 8px 12px;
-  margin-top: 5px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
+/* Reset some basics */
+* {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb;
+  color: #111827;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  padding: 2rem 3rem;
+}
+@media (min-width: 1600px) {
+  .container {
+    padding: 2rem 8rem;
+  }
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111827;
+  color: #ffffff;
+  padding: 1rem 2rem;
+}
+
+.navbar h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.nav-button {
+  background-color: #3b82f6;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.nav-button:hover {
+  background-color: #2563eb;
+}
+
+/* Cards */
+.card {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 2rem; 
+}
+
+.card h3, .card h4 {
+  margin-bottom: 0.75rem;
+  color: #111827;
+}
+
+.card p {
+  font-size: 1.2rem;
+  color: #1f2937;
+}
+
+/* Grids */
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Inputs & Form elements */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
 }
 
 button {
-  background-color: #3498db;
+  background-color: #111827;
+  color: #ffffff;
   border: none;
-  color: #fff;
-  padding: 10px 18px;
-  font-size: 16px;
+  padding: 0.5rem 1rem;
   border-radius: 4px;
+  font-weight: 500;
   cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s;
 }
 
 button:hover {
-  background-color: #2980b9;
+  background-color: #374151;
 }
 
-/* Pie and Line Chart containers */
-canvas {
-  max-width: 100%;
-  height: auto;
-  margin-top: 20px;
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
 }
 
-/* Navbar styling if you use one */
-nav {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  background-color: #3498db;
-  padding: 12px;
+table th,
+table td {
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-nav a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 500;
+table th {
+  background-color: #f3f4f6;
+  color: #374151;
+  font-weight: 600;
 }
 
-nav a:hover {
-  text-decoration: underline;
+table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+/* Charts */
+.chart-container {
+  min-height: 300px;
+}
+
+/* Total value emphasis */
+.total {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3b82f6;
+}
+
+/* Layout specific */
+.app-container {
+  width: 100%;
+  padding: 2rem;
 }
